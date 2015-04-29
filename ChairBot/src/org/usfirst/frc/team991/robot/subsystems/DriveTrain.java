@@ -43,8 +43,8 @@ public class DriveTrain extends Subsystem {
 	}
 
 
-	public void tankDrive(Joystick leftJoy, Joystick rightJoy) {
-		drive.tankDrive(leftJoy, rightJoy);
+	public void tankDrive(Joystick leftJoy, Joystick rightJoy, boolean squared) {
+		drive.tankDrive(leftJoy, rightJoy, squared);
 	}
 	public void stop() {
 		drive.tankDrive(0, 0);
