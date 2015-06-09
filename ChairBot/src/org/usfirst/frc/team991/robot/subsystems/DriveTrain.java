@@ -18,17 +18,21 @@ public class DriveTrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	private SpeedController right_motor, left_motor;
+	private SpeedController front_right_motor, back_right_motor, front_left_motor, back_left_motor;
 	private RobotDrive drive;
 	
 	public DriveTrain() {
 		super();
-		left_motor = new Talon(RobotMap.leftMotor);
-		right_motor = new Talon(RobotMap.rightMotor);
-		drive = new RobotDrive(left_motor, right_motor);
+		front_left_motor = new Talon(RobotMap.frontleftMotor);
+		back_left_motor = new Talon(RobotMap.backleftMotor);
+		front_right_motor = new Talon(RobotMap.frontrightMotor);
+		back_right_motor = new Talon(RobotMap.backrightMotor);
+		drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
 		
-		LiveWindow.addActuator("Drive Train", "Left Motor", (Talon) left_motor);
-		LiveWindow.addActuator("Drive Train", "Right Motor", (Talon) right_motor);
+		LiveWindow.addActuator("Drive Train", "Left Motor", (Talon) front_left_motor);
+		LiveWindow.addActuator("Drive Train", "Right Motor", (Talon) front_right_motor);
+		LiveWindow.addActuator("Drive Train", "Left Motor", (Talon) back_left_motor);
+		LiveWindow.addActuator("Drive Train", "Right Motor", (Talon) back_right_motor);
 	}
 	
 
