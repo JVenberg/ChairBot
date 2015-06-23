@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team991.robot.commands.Autonomous;
 import org.usfirst.frc.team991.robot.commands.DriveAuto;
 import org.usfirst.frc.team991.robot.subsystems.DriveTrain;
@@ -42,7 +43,7 @@ public class Robot extends IterativeRobot {
         autoChooser = new SendableChooser();
         autoChooser.addDefault("Default Autonomous", new Autonomous());
         autoChooser.addObject("Drive Forward", new DriveAuto(-.5,-.5,.5));
-        SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+        SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
     }
 	
 	public void disabledPeriodic() {

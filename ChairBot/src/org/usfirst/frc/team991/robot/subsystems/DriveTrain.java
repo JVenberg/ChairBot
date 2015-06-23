@@ -1,14 +1,16 @@
 package org.usfirst.frc.team991.robot.subsystems;
 
+import org.usfirst.frc.team991.robot.Robot;
 import org.usfirst.frc.team991.robot.RobotMap;
 import org.usfirst.frc.team991.robot.commands.TankDriveJoystick;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -20,6 +22,7 @@ public class DriveTrain extends Subsystem {
 	
 	private SpeedController front_right_motor, back_right_motor, front_left_motor, back_left_motor;
 	private RobotDrive drive;
+	private Encoder left_encoder, right_encoder;
 	
 	public DriveTrain() {
 		super();
@@ -27,6 +30,10 @@ public class DriveTrain extends Subsystem {
 		back_left_motor = new Talon(RobotMap.backleftMotor);
 		front_right_motor = new Talon(RobotMap.frontrightMotor);
 		back_right_motor = new Talon(RobotMap.backrightMotor);
+		
+		left_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+		right_encoder = new Encoder(2, 4, false, Encoder.EncodingType.k4X);
+		
 		drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
 		
 		drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
@@ -48,13 +55,16 @@ public class DriveTrain extends Subsystem {
     }
     
     public void tankDrive(double y, double rot) {
-    	if(y <= 0) {
+    	if(y >= 0) {
         	y = y * .45;
     	} else {
     		y = y * .75;
     	}
     	rot = rot * .6;
 		drive.arcadeDrive(y, rot, true);
+        SmartDashboard.putNumber("Speed", Robot.oi.getLeftJoy().getY());
+		SmartDashboard.putNumber("Left Encoder", left_encoder.getDistance());
+		SmartDashboard.putNumber("Right Encoder", right_encoder.getDistance());
 	}
 
 
