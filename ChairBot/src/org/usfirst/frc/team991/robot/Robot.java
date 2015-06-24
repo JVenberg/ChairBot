@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team991.robot.commands.Autonomous;
 import org.usfirst.frc.team991.robot.commands.DriveAuto;
 import org.usfirst.frc.team991.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team991.robot.subsystems.Pneumatics;
+import org.usfirst.frc.team991.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,30 +22,34 @@ import org.usfirst.frc.team991.robot.subsystems.DriveTrain;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	Command autoCommand;
-	SendableChooser autoChooser;
-
-	public static DriveTrain drivetrain;
-	
 	public static OI oi;
 
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
+	public static DriveTrain drivetrain;
+	public static Pneumatics pneumatics;
+	public static Shooter shooter;
+	
+
+	Command autoCommand;
+	public SendableChooser autoChooser;
+	public SendableChooser autonomousDirectionChooser;
+	
     public void robotInit() {
 		drivetrain = new DriveTrain();
-        // instantiate the command used for the autonomous period
-		autoCommand = new Autonomous();
-		oi = new OI();
-        
+		pneumatics = new Pneumatics();
+		shooter = new Shooter();
+
         SmartDashboard.putData(drivetrain);
-        
-        // autonomous chooser
-        autoChooser = new SendableChooser();
-        autoChooser.addDefault("Default Autonomous", new Autonomous());
-        autoChooser.addObject("Drive Forward", new DriveAuto(-.5,-.5,.5));
-        SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
+        SmartDashboard.putData(pneumatics);
+        SmartDashboard.putData(shooter);
+		
+		oi = new OI();
+
+		autoChooser = new SendableChooser();
+		autoChooser.addDefault("Autonomous", new Autonomous());
+		autoChooser.addObject("Autonomous Drive", new DriveAuto(0,0,0));
+		SmartDashboard.putData("Auto Mode", autoChooser);
+		
+		pneumatics.start();
     }
 	
 	public void disabledPeriodic() {
@@ -51,14 +57,10 @@ public class Robot extends IterativeRobot {
 	}
 
     public void autonomousInit() {
-        // schedule the autonomous command (example)
     	autoCommand = (Command) autoChooser.getSelected();
     	autoCommand.start();
     }
 
-    /**
-     * This function is called periodically during autonomous
-     */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
     }

@@ -26,7 +26,7 @@ public class DriveTrain extends Subsystem {
 	
 	public DriveTrain() {
 		super();
-		DEADZONE = 0.2;
+		DEADZONE = 0.1;
 		MAX_SPEED = 5;
 		FORWARD = .1;
 		
@@ -49,6 +49,9 @@ public class DriveTrain extends Subsystem {
 		LiveWindow.addActuator("Drive Train", "Right Motor", (Talon) front_right_motor);
 		LiveWindow.addActuator("Drive Train", "Left Motor", (Talon) back_left_motor);
 		LiveWindow.addActuator("Drive Train", "Right Motor", (Talon) back_right_motor);
+		
+		LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
+		LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
 	}
 	
 
@@ -58,7 +61,7 @@ public class DriveTrain extends Subsystem {
     	setDefaultCommand(new TankDriveJoystick());
     }
     
-    public void tankDrive(double y, double rot) {
+    public void arcadeDrive(double y, double rot) {
     	if(Math.abs(y) >= DEADZONE) {
     		double current_speed = (Math.abs(left_encoder.getRate()) + Math.abs(right_encoder.getRate()))/2;
     		double scaler = (current_speed/MAX_SPEED) + FORWARD;
