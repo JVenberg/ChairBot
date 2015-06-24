@@ -35,8 +35,8 @@ public class DriveTrain extends Subsystem {
 		front_right_motor = new Talon(RobotMap.frontrightMotor);
 		back_right_motor = new Talon(RobotMap.backrightMotor);
 		
-		left_encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-		right_encoder = new Encoder(2, 4, false, Encoder.EncodingType.k4X);
+		left_encoder = new Encoder(RobotMap.leftencoderAChannel, RobotMap.leftencoderBChannel, false, Encoder.EncodingType.k4X);
+		right_encoder = new Encoder(RobotMap.rightencoderAChannel, RobotMap.righttencoderBChannel, false, Encoder.EncodingType.k4X);
 		
 		drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
 		

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team991.robot.subsystems;
 
+import org.usfirst.frc.team991.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -13,8 +15,8 @@ public class Shooter extends Subsystem {
 	Solenoid trigger;
 	
 	public Shooter() {
-		loader = new Solenoid(0);
-		trigger = new Solenoid(1);
+		loader = new Solenoid(RobotMap.loadersolenoid);
+		trigger = new Solenoid(RobotMap.triggersolenoid);
 		
 		LiveWindow.addActuator("Shooter", "Loader", loader);
 		LiveWindow.addActuator("Shooter", "Trigger", trigger);
