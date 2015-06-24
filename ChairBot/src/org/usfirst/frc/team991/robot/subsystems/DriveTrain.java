@@ -23,9 +23,14 @@ public class DriveTrain extends Subsystem {
 	private SpeedController front_right_motor, back_right_motor, front_left_motor, back_left_motor;
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
+	private final double DEADZONE, MAX_SPEED, FORWARD;
 	
 	public DriveTrain() {
 		super();
+		DEADZONE = 0.2;
+		MAX_SPEED = 5;
+		FORWARD = .1;
+		
 		front_left_motor = new Talon(RobotMap.frontleftMotor);
 		back_left_motor = new Talon(RobotMap.backleftMotor);
 		front_right_motor = new Talon(RobotMap.frontrightMotor);
@@ -55,22 +60,21 @@ public class DriveTrain extends Subsystem {
     }
     
     public void tankDrive(double y, double rot) {
-    	if(y >= 0) {
-        	y = y * .45;
-    	} else {
-    		y = y * .75;
+    	if(Math.abs(y) >= DEADZONE) {
+    		double current_speed = (Math.abs(left_encoder.getRate()) + Math.abs(right_encoder.getRate()))/2;
+    		double scaler = (current_speed/MAX_SPEED) + FORWARD;
+    		y *= Math.min(scaler, 1);
+            SmartDashboard.putNumber("Current Speed", current_speed);
+            SmartDashboard.putNumber("Scaler", scaler);
     	}
-    	rot = rot * .6;
+    	rot *= .6;
 		drive.arcadeDrive(y, rot, true);
-        SmartDashboard.putNumber("Speed", Robot.oi.getLeftJoy().getY());
-		SmartDashboard.putNumber("Left Encoder", left_encoder.getDistance());
-		SmartDashboard.putNumber("Right Encoder", right_encoder.getDistance());
 	}
-
 
 //	public void tankDrive(Joystick leftJoy, Joystick rightJoy, boolean squared) {
 //		drive.tankDrive(leftJoy, rightJoy, squared);
 //	}
+    
 	public void stop() {
 		drive.tankDrive(0, 0);
 	}
