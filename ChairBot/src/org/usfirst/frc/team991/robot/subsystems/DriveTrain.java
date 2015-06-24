@@ -1,6 +1,5 @@
 package org.usfirst.frc.team991.robot.subsystems;
 
-import org.usfirst.frc.team991.robot.Robot;
 import org.usfirst.frc.team991.robot.RobotMap;
 import org.usfirst.frc.team991.robot.commands.TankDriveJoystick;
 
