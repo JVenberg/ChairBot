@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ *	Pneumatic Subsystem.
  */
 public class Pneumatics extends Subsystem {
+	
+	//Initialize compressor
 	Compressor compressor;
 
     public void initDefaultCommand() {}

@@ -25,6 +25,7 @@ public class OI {
 		SmartDashboard.putData("Fire", new FireShooter());
 	}
 	
+	//Return joysticks
 	public Joystick getLeftJoy() {
 		return joystick_0;
 	}

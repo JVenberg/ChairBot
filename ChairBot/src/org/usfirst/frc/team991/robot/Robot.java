@@ -24,30 +24,35 @@ import org.usfirst.frc.team991.robot.subsystems.Shooter;
 public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	public static OI oi;
-
+	
+	//Subsystems
 	public static DriveTrain drivetrain;
 	public static Pneumatics pneumatics;
 	public static Shooter shooter;
 	
+	//Auto Chooser
 	public SendableChooser autoChooser;
 	public SendableChooser autonomousDirectionChooser;
 	
     public void robotInit() {
+    	//Subsystems
 		drivetrain = new DriveTrain();
 		pneumatics = new Pneumatics();
 		shooter = new Shooter();
-
+		
         SmartDashboard.putData(drivetrain);
         SmartDashboard.putData(pneumatics);
         SmartDashboard.putData(shooter);
 		
 		oi = new OI();
-
+		
+		//Auto Chooser
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Autonomous", new Autonomous());
 		autoChooser.addObject("Autonomous Drive", new DriveAuto(0,0,0));
 		SmartDashboard.putData("Auto Mode", autoChooser);
 		
+		//Pneumatics
 		pneumatics.start();
     }
 	
@@ -65,10 +70,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+    	//Stops autonomous 
         if (autonomousCommand != null) autonomousCommand.cancel();
     }
 
@@ -76,9 +78,7 @@ public class Robot extends IterativeRobot {
      * This function is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
      */
-    public void disabledInit(){
-
-    }
+    public void disabledInit(){}
 
     /**
      * This function is called periodically during operator control
