@@ -12,10 +12,10 @@ public class RobotMap {
     public static int backrightMotor = 2;
     public static int frontrightMotor = 3;
     
-    public static int leftencoderAChannel = 0;
-    public static int leftencoderBChannel = 1;
-    public static int rightencoderAChannel = 2;
-    public static int righttencoderBChannel = 3;
+    public static int leftencoderAChannel = 1;
+    public static int leftencoderBChannel = 0;
+    public static int rightencoderAChannel = 3;
+    public static int rightencoderBChannel = 2;
     
     // Shooter
     public static int loadersolenoid = 0;

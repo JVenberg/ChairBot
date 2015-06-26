@@ -40,10 +40,6 @@ public class Robot extends IterativeRobot {
 		pneumatics = new Pneumatics();
 		shooter = new Shooter();
 		
-        SmartDashboard.putData(drivetrain);
-        SmartDashboard.putData(pneumatics);
-        SmartDashboard.putData(shooter);
-		
 		oi = new OI();
 		
 		//Auto Chooser

@@ -19,15 +19,20 @@ public class DriveTrain extends Subsystem {
 	private SpeedController front_right_motor, back_right_motor, front_left_motor, back_left_motor;
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
-	private final double DEADZONE, MAX_SPEED, FORWARD;
+	private final double DEADZONE, MAX_SPEED, FORWARD, MAXPERIOD, MINRATE, ROTSCALER, HARDBRAKE;
+	private double current_speed, scaler, left_rate, right_rate;
 	
 	public DriveTrain() {
 		super();
 		
 		//Constants
 		DEADZONE = 0.1;
-		MAX_SPEED = 5;
+		MAX_SPEED = 2700;
 		FORWARD = .1;
+		MAXPERIOD = .1;
+		MINRATE = 100;
+		ROTSCALER = .4;
+		HARDBRAKE = .2;
 		
 		//Initialize motor controllers
 		front_left_motor = new Talon(RobotMap.frontleftMotor);
@@ -36,8 +41,13 @@ public class DriveTrain extends Subsystem {
 		back_right_motor = new Talon(RobotMap.backrightMotor);
 		
 		//Initialize encoders
-		left_encoder = new Encoder(RobotMap.leftencoderAChannel, RobotMap.leftencoderBChannel, false, Encoder.EncodingType.k4X);
-		right_encoder = new Encoder(RobotMap.rightencoderAChannel, RobotMap.righttencoderBChannel, false, Encoder.EncodingType.k4X);
+		left_encoder = new Encoder(RobotMap.leftencoderAChannel, RobotMap.leftencoderBChannel, true, Encoder.EncodingType.k2X);
+		right_encoder = new Encoder(RobotMap.rightencoderAChannel, RobotMap.rightencoderBChannel, false, Encoder.EncodingType.k2X);
+		
+		left_encoder.setMaxPeriod(MAXPERIOD);
+		left_encoder.setMinRate(MINRATE);
+		right_encoder.setMaxPeriod(MAXPERIOD);
+		right_encoder.setMinRate(MINRATE);
 		
 		//Initialize robot drive
 		drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
@@ -64,21 +74,60 @@ public class DriveTrain extends Subsystem {
     }
     
     public void arcadeDrive(double y, double rot) {
+    	
+    	left_rate = left_encoder.getRate();
+    	right_rate = right_encoder.getRate();
+    	
     	if(Math.abs(y) >= DEADZONE) {
-    		double current_speed = (Math.abs(left_encoder.getRate()) + Math.abs(right_encoder.getRate()))/2;
-    		double scaler = (current_speed/MAX_SPEED) + FORWARD;
+    		//Calculate y-scaler
+    		current_speed = (Math.abs(left_rate) + Math.abs(right_rate))/2;
+    		scaler = (current_speed/MAX_SPEED) + FORWARD;
     		y *= Math.min(scaler, 1);
     		
+    		//SmartDashboard update
             SmartDashboard.putNumber("Current Speed", current_speed);
             SmartDashboard.putNumber("Scaler", scaler);
+            
+            /*	Prevents hard brake
+             *	Checks if moving and set to 0 if y is in opposite direction */
+        	if(!right_encoder.getStopped() && !left_encoder.getStopped()) {
+        		if(right_rate > 0 && left_rate > 0) {
+        			if(y < 0){
+        				y = 0;
+        			}
+        		} else {
+        			if(y > 0) {
+        				y = 0;
+        			}
+        		}
+        	}
     	}
-    	rot *= .6;
-		drive.arcadeDrive(y, rot, true);
+    	//Scale rotation
+    	rot *= ROTSCALER;
+    	
+    	//Update drive values
+		drive.arcadeDrive(y, rot, false);
+		
+		//SmartDashboard update
+        SmartDashboard.putNumber("Right Encoder Speed", right_rate);
+        SmartDashboard.putNumber("Left Encoder Speed", left_rate);
 	}
-
-    //public void tankDrive(Joystick leftJoy, Joystick rightJoy, boolean squared) {
-	//	drive.tankDrive(leftJoy, rightJoy, squared);
-	//}
+    
+    public void hardBrake() {
+    	
+    	//Get speed of encoders
+    	left_rate = left_encoder.getRate();
+    	right_rate = right_encoder.getRate();
+    	
+    	//Feeds opposite value to brake
+    	if(!left_encoder.getStopped() && !right_encoder.getStopped()) {
+    		if (left_rate > 0 && right_rate > 0) {
+    			drive.tankDrive(-HARDBRAKE, -HARDBRAKE);
+    		} else {
+    			drive.tankDrive(HARDBRAKE, HARDBRAKE);
+    		}
+    	}
+    }
     
 	public void stop() {
 		drive.tankDrive(0, 0);
