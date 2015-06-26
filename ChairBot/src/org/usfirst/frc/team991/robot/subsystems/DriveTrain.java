@@ -23,8 +23,6 @@ public class DriveTrain extends Subsystem {
 	private double current_speed, scaler, left_rate, right_rate;
 	
 	public DriveTrain() {
-		super();
-		
 		//Constants
 		DEADZONE = 0.1;
 		MAX_SPEED = 2700;
