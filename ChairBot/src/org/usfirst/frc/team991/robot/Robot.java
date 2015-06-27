@@ -2,6 +2,7 @@
 package org.usfirst.frc.team991.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -29,6 +30,9 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static Pneumatics pneumatics;
 	public static Shooter shooter;
+	
+	//Preferences
+	public static Preferences pref;
 	
 	//Auto Chooser
 	public SendableChooser autoChooser;
@@ -66,7 +70,11 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-    	//Stops autonomous 
+    	//Gets preferences
+    	pref = Preferences.getInstance();
+    	
+    	
+    	//Stops autonomous
         if (autonomousCommand != null) autonomousCommand.cancel();
     }
 

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team991.robot.subsystems;
 
+import org.usfirst.frc.team991.robot.Robot;
 import org.usfirst.frc.team991.robot.RobotMap;
 import org.usfirst.frc.team991.robot.commands.ArcadeDriveJoystick;
 
@@ -24,13 +25,13 @@ public class DriveTrain extends Subsystem {
 	
 	public DriveTrain() {
 		//Constants
-		DEADZONE = 0.1;
-		MAX_SPEED = 2700;
-		FORWARD = .1;
-		MAXPERIOD = .1;
-		MINRATE = 100;
-		ROTSCALER = .4;
-		HARDBRAKE = .2;
+		DEADZONE = Robot.pref.getDouble("Deadzone", 0.1);
+		MAX_SPEED = Robot.pref.getDouble("Max Speed", 2700);
+		FORWARD = Robot.pref.getDouble("Forward", 0.1);
+		MAXPERIOD = Robot.pref.getDouble("Max Period", 0.1);
+		MINRATE = Robot.pref.getDouble("Min Rate", 100);
+		ROTSCALER = Robot.pref.getDouble("Rotation Scaler", 0.4);
+		HARDBRAKE = Robot.pref.getDouble("Hand Brake", 0.2);
 		
 		//Initialize motor controllers
 		front_left_motor = new Talon(RobotMap.frontleftMotor);
