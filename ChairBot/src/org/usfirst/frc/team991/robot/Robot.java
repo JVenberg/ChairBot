@@ -25,20 +25,23 @@ import org.usfirst.frc.team991.robot.subsystems.Shooter;
 public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	public static OI oi;
+
+	//Preferences
+	public static Preferences pref;
 	
 	//Subsystems
 	public static DriveTrain drivetrain;
 	public static Pneumatics pneumatics;
 	public static Shooter shooter;
 	
-	//Preferences
-	public static Preferences pref;
-	
 	//Auto Chooser
 	public SendableChooser autoChooser;
 	public SendableChooser autonomousDirectionChooser;
 	
     public void robotInit() {
+    	//Gets Preferences
+    	pref = Preferences.getInstance();
+    	
     	//Subsystems
 		drivetrain = new DriveTrain();
 		pneumatics = new Pneumatics();
@@ -70,10 +73,6 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-    	//Gets preferences
-    	pref = Preferences.getInstance();
-    	
-    	
     	//Stops autonomous
         if (autonomousCommand != null) autonomousCommand.cancel();
     }
