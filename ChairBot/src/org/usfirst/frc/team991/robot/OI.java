@@ -4,6 +4,8 @@ import org.usfirst.frc.team991.robot.commands.FireShooter;
 import org.usfirst.frc.team991.robot.commands.HardBrake;
 import org.usfirst.frc.team991.robot.commands.LoadAndFire;
 import org.usfirst.frc.team991.robot.commands.LoadShooter;
+import org.usfirst.frc.team991.robot.triggers.DoubleButton;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -17,12 +19,10 @@ public class OI {
 	private Joystick joystick_0 = new Joystick(0);
 	private Joystick joystick_1 = new Joystick(1);
 	
-	private Button button8 = new JoystickButton(joystick_0, 8);
+	private DoubleButton load = new DoubleButton(joystick_0, 5, 6);
+	private DoubleButton fire = new DoubleButton(joystick_0, 7, 8);
 	
 	public OI() {
-		//new DoubleButton(joystick_0, 1, 2).whenActive(new LoadAndFire());
-		
-		button8.whenPressed(new HardBrake());
 
 		// SmartDashboard Buttons
 		SmartDashboard.putData("Load And Fire", new LoadAndFire());
