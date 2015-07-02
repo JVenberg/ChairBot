@@ -26,7 +26,7 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		//Constants
 		DEADZONE = Robot.pref.getDouble("Deadzone", 0.1);
-		MAX_SPEED = Robot.pref.getDouble("Max Speed", 2700);
+		MAX_SPEED = Robot.pref.getDouble("Max Speed", 3100); //Human = 2700; Cannon = 3100;
 		FORWARD = Robot.pref.getDouble("Forward", 0.1);
 		MAXPERIOD = Robot.pref.getDouble("Max Period", 0.1);
 		MINRATE = Robot.pref.getDouble("Min Rate", 100);
