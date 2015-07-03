@@ -16,27 +16,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	//Initialize Joysticks, Buttons, and Triggers
 	private Joystick joystick_0 = new Joystick(0);
 	private Joystick joystick_1 = new Joystick(1);
-	
-	private Trigger load;
-	private Trigger fire;
-	
-	private Button hardBrake;
+	private Trigger loadButton;
+	private Trigger fireButton;
+	private Button hardBrakeButton;
 	
 	public OI() {
-		load = new DoubleButton(joystick_0, 5, 6);
-		fire = new DoubleButton(joystick_0, 7, 8);
+		//Construct Buttons
+		loadButton = new DoubleButton(joystick_0, 5, 6);
+		fireButton = new DoubleButton(joystick_0, 7, 8);
+		hardBrakeButton = new JoystickButton(joystick_0, 1);
 		
-		hardBrake = new JoystickButton(joystick_0, 1);
-		
-		load.whenActive(new LoadShooter());
-		fire.whenActive(new FireShooter());
-		
-		hardBrake.whenPressed(new HardBrake());
+		//Bind Commands to Buttons
+		loadButton.whenActive(new LoadShooter());
+		fireButton.whenActive(new FireShooter());
+		hardBrakeButton.whenPressed(new HardBrake());
 
-		// SmartDashboard Buttons
-			//SmartDashboard.putData("Load And Fire", new LoadAndFire());
+		//SmartDashboard Buttons
+		//	SmartDashboard.putData("Load And Fire", new LoadAndFire());
 		SmartDashboard.putData("Load", new LoadShooter());
 		SmartDashboard.putData("Fire", new FireShooter());
 	}
