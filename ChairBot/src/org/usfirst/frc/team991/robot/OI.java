@@ -2,6 +2,7 @@ package org.usfirst.frc.team991.robot;
 
 import org.usfirst.frc.team991.robot.commands.FireShooter;
 import org.usfirst.frc.team991.robot.commands.HardBrake;
+import org.usfirst.frc.team991.robot.commands.LoadAndFire;
 import org.usfirst.frc.team991.robot.commands.LoadShooter;
 import org.usfirst.frc.team991.robot.triggers.DoubleButton;
 
@@ -35,7 +36,7 @@ public class OI {
 		hardBrakeButton.whenPressed(new HardBrake());
 
 		//SmartDashboard Buttons
-		//	SmartDashboard.putData("Load And Fire", new LoadAndFire());
+		SmartDashboard.putData("Load And Fire", new LoadAndFire());
 		SmartDashboard.putData("Load", new LoadShooter());
 		SmartDashboard.putData("Fire", new FireShooter());
 	}
