@@ -11,7 +11,7 @@ public class HardBrake extends Command {
 
     public HardBrake() {
         requires(Robot.drivetrain);
-        setTimeout(.2);
+        setTimeout(.5);
         setInterruptible(false);
     }
 

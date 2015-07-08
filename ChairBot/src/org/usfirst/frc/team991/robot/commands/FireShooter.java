@@ -11,7 +11,7 @@ public class FireShooter extends Command {
 
     public FireShooter() {
         requires(Robot.shooter);
-        setTimeout(2);
+        setTimeout(1);
         setInterruptible(false);
     }
 
