@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 import org.usfirst.frc.team991.robot.commands.Autonomous;
 import org.usfirst.frc.team991.robot.commands.DriveAuto;
@@ -38,6 +39,8 @@ public class Robot extends IterativeRobot {
 	public SendableChooser autoChooser;
 	public SendableChooser autonomousDirectionChooser;
 	
+	public USBCamera camera;
+	
     public void robotInit() {
     	//Gets Preferences
     	pref = Preferences.getInstance();
@@ -57,6 +60,9 @@ public class Robot extends IterativeRobot {
 		
 		//Pneumatics
 		pneumatics.start();
+		
+		//Camera
+		camera = new USBCamera("Main_Camera");
     }
 	
 	public void disabledPeriodic() {
@@ -75,13 +81,19 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
     	//Stops autonomous
         if (autonomousCommand != null) autonomousCommand.cancel();
+
+		camera.openCamera();
+		camera.startCapture();
     }
 
     /**
      * This function is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
      */
-    public void disabledInit(){}
+    public void disabledInit(){
+    	camera.stopCapture();
+    	camera.closeCamera();
+    }
 
     /**
      * This function is called periodically during operator control
