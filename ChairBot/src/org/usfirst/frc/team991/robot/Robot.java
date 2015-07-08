@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team991.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,8 +9,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.USBCamera;
-
 import org.usfirst.frc.team991.robot.commands.Autonomous;
 import org.usfirst.frc.team991.robot.commands.DriveAuto;
 import org.usfirst.frc.team991.robot.subsystems.DriveTrain;
@@ -39,7 +38,8 @@ public class Robot extends IterativeRobot {
 	public SendableChooser autoChooser;
 	public SendableChooser autonomousDirectionChooser;
 	
-	public USBCamera camera;
+	//Camera Server
+	public CameraServer server;
 	
     public void robotInit() {
     	//Gets Preferences
@@ -61,8 +61,10 @@ public class Robot extends IterativeRobot {
 		//Pneumatics
 		pneumatics.start();
 		
-		//Camera
-		camera = new USBCamera("Main_Camera");
+		//Camera Server
+		server = CameraServer.getInstance();
+		server.setQuality(50);
+		server.startAutomaticCapture("cam0");
     }
 	
 	public void disabledPeriodic() {
@@ -81,19 +83,13 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
     	//Stops autonomous
         if (autonomousCommand != null) autonomousCommand.cancel();
-
-		camera.openCamera();
-		camera.startCapture();
     }
 
     /**
      * This function is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
      */
-    public void disabledInit(){
-    	camera.stopCapture();
-    	camera.closeCamera();
-    }
+    public void disabledInit(){}
 
     /**
      * This function is called periodically during operator control
