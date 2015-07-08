@@ -12,6 +12,7 @@ public class LoadShooter extends Command {
     public LoadShooter() {
     	requires(Robot.pneumatics);
     	setTimeout(8);
+    	setInterruptible(false);
     }
 
     protected void initialize() {
