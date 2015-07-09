@@ -74,6 +74,7 @@ public class DriveTrain extends Subsystem {
     }
     
     public void arcadeDrive(double y, double rot) {
+    	long startTime = System.nanoTime();
     	
     	left_rate = left_encoder.getRate();
     	right_rate = right_encoder.getRate();
@@ -109,7 +110,12 @@ public class DriveTrain extends Subsystem {
     	//Update drive values
 		drive.arcadeDrive(y, rot, false);
 		
+		//Timer end
+    	long endTime = System.nanoTime();
+    	long duration = (endTime - startTime);
+		
 		//SmartDashboard update
+    	SmartDashboard.putNumber("ArcadeDrive time", duration);
         SmartDashboard.putNumber("Right Encoder Speed", right_rate);
         SmartDashboard.putNumber("Left Encoder Speed", left_rate);
 	}
