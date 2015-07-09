@@ -22,6 +22,7 @@ public class DriveTrain extends Subsystem {
 	private Encoder left_encoder, right_encoder;
 	private final double DEADZONE, MAX_SPEED, FORWARD, MAXPERIOD, MINRATE, ROTSCALER, HARDBRAKE;
 	private double current_speed, scaler, left_rate, right_rate;
+	private int robotDirection;
 	
 	public DriveTrain() {
 		//Constants
@@ -76,6 +77,8 @@ public class DriveTrain extends Subsystem {
     	
     	left_rate = left_encoder.getRate();
     	right_rate = right_encoder.getRate();
+
+    	robotDirection = getRobotDirection();
     	
     	if(Math.abs(y) >= DEADZONE) {
     		//Calculate y-scaler
@@ -89,16 +92,14 @@ public class DriveTrain extends Subsystem {
             
             /*	Prevents hard brake
              *	Checks if moving and set to 0 if y is in opposite direction */
-        	if(!isStopped()) {
-        		if(right_rate < 0 && left_rate < 0) {
-        			if(y < 0){
-        				y = 0;
-        			}
-        		} else {
-        			if(y > 0) {
-        				y = 0;
-        			}
+        	if(robotDirection == -1) {
+        		if(y < 0){
+        			y = 0;
         		}
+        	} else if (robotDirection == 1){
+    			if(y > 0) {
+    				y = 0;
+    			}
         	}
     	}
     	//Scale rotation
@@ -113,18 +114,13 @@ public class DriveTrain extends Subsystem {
 	}
     
     public void hardBrake() {
-    	
-    	//Get speed of encoders
-    	left_rate = left_encoder.getRate();
-    	right_rate = right_encoder.getRate();
+    	robotDirection = getRobotDirection();
     	
     	//Feeds opposite value to brake
-    	if (!isStopped()) {
-    		if (left_rate > 0 && right_rate > 0) {
-    			drive.tankDrive(HARDBRAKE, HARDBRAKE);
-    		} else {
-    			drive.tankDrive(-HARDBRAKE, -HARDBRAKE);
-    		}
+    	if (robotDirection == 1) {
+    		drive.tankDrive(HARDBRAKE, HARDBRAKE);
+    	} else if (robotDirection == -1) {
+    		drive.tankDrive(-HARDBRAKE, -HARDBRAKE);
     	}
     }
     
@@ -136,6 +132,18 @@ public class DriveTrain extends Subsystem {
 		if (left_encoder.getStopped() && right_encoder.getStopped())
 			return true;
 		return false;
+	}
+	
+	public int getRobotDirection() {
+		if (!isStopped()) {
+			if (left_encoder.getRate() > 0 && right_encoder.getRate() > 0) {
+				return 1;
+			} else {
+				return -1;
+			}
+		} else {
+			return 0;
+		}
 	}
 }
 
