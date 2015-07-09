@@ -92,16 +92,17 @@ public class DriveTrain extends Subsystem {
             
             /*	Prevents hard brake
              *	Checks if moving and set to 0 if y is in opposite direction */
-        	if(robotDirection == -1) {
-        		if(y < 0){
+        	if(robotDirection == 1) {
+        		if(y > 0){
         			y = 0;
         		}
-        	} else if (robotDirection == 1){
-    			if(y > 0) {
+        	} else if (robotDirection == -1){
+    			if(y < 0) {
     				y = 0;
     			}
         	}
     	}
+    	
     	//Scale rotation
     	rot *= ROTSCALER;
     	
@@ -113,6 +114,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Encoder Speed", left_rate);
 	}
     
+    //Performs a hard brake
     public void hardBrake() {
     	robotDirection = getRobotDirection();
     	
@@ -124,16 +126,23 @@ public class DriveTrain extends Subsystem {
     	}
     }
     
+    //Stops drive train
 	public void stop() {
 		drive.tankDrive(0, 0);
 	}
 	
+	//Checks if robot is stopped
 	public boolean isStopped() {
 		if (left_encoder.getStopped() && right_encoder.getStopped())
 			return true;
 		return false;
 	}
 	
+	/* Returns robot direction
+	 * Forward = 1
+	 * Backwards = -1
+	 * Stopped = 0
+	 * */
 	public int getRobotDirection() {
 		if (!isStopped()) {
 			if (left_encoder.getRate() > 0 && right_encoder.getRate() > 0) {
