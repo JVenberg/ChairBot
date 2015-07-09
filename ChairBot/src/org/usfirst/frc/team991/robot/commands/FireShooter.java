@@ -16,7 +16,8 @@ public class FireShooter extends Command {
     }
 
     protected void initialize() {
-    	Robot.shooter.triggerOn();
+    	if (Robot.drivetrain.isStopped())
+    		Robot.shooter.triggerOn();
     }
 
     protected void execute() {}
