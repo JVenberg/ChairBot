@@ -65,6 +65,11 @@ public class Robot extends IterativeRobot {
 		server = CameraServer.getInstance();
 		server.setQuality(50);
 		server.startAutomaticCapture("cam0");
+		
+		//SmartDashboard Data
+		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData(drivetrain);
+		SmartDashboard.putData(shooter);
     }
 	
 	public void disabledPeriodic() {
