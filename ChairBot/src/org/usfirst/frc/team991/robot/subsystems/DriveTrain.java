@@ -119,7 +119,7 @@ public class DriveTrain extends Subsystem {
     	right_rate = right_encoder.getRate();
     	
     	//Feeds opposite value to brake
-    	if(!left_encoder.getStopped() && !right_encoder.getStopped()) {
+    	if (!left_encoder.getStopped() && !right_encoder.getStopped()) {
     		if (left_rate < 0 && right_rate < 0) {
     			drive.tankDrive(-HARDBRAKE, -HARDBRAKE);
     		} else {
@@ -130,6 +130,12 @@ public class DriveTrain extends Subsystem {
     
 	public void stop() {
 		drive.tankDrive(0, 0);
+	}
+	
+	public boolean isStopped() {
+		if (left_encoder.getStopped() && right_encoder.getStopped())
+			return true;
+		return false;
 	}
 }
 
