@@ -2,7 +2,6 @@ package org.usfirst.frc.team991.robot.commands;
 
 import org.usfirst.frc.team991.robot.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,34 +9,28 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveAuto extends Command {
 	
-	private double leftDrive, rightDrive, time;
-	private Timer timer;
+	private double y, rot;
 
-    public DriveAuto(double leftDrive, double rightDrive, double time) {
-    	timer = new Timer();
-    	this.leftDrive = leftDrive;
-    	this.rightDrive = rightDrive;
-    	this.time = time;
+    public DriveAuto(double y, double rot, double time) {
+    	this.y = y;
+    	this.rot = rot;
+    	
     	requires(Robot.drivetrain);
+    	setTimeout(time);
     }
 
-    protected void initialize() {
-    	timer.start();
-    }
+    protected void initialize() {}
 
     protected void execute() {
-    	Robot.drivetrain.arcadeDrive(leftDrive, rightDrive);
+    	Robot.drivetrain.arcadeDrive(y, rot);
     }
 
     protected boolean isFinished() {
-        if (timer.get() >= time)
-        	return true;
-        return false;
+        return isTimedOut();
     }
 
     protected void end() {
     	Robot.drivetrain.stop();
-    	timer.stop();
     }
 
     protected void interrupted() {}
