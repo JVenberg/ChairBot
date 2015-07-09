@@ -11,7 +11,7 @@ public class HardBrake extends Command {
 
     public HardBrake() {
         requires(Robot.drivetrain);
-        setTimeout(.5);
+        setTimeout(1);
         setInterruptible(false);
     }
 
@@ -22,7 +22,7 @@ public class HardBrake extends Command {
     protected void execute() {}
 
     protected boolean isFinished() {
-        return isTimedOut();
+        return (isTimedOut() || Robot.drivetrain.isStopped());
     }
 
     protected void end() {
