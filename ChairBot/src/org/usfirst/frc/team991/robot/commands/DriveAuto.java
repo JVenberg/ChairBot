@@ -36,7 +36,7 @@ public class DriveAuto extends Command {
     }
 
     protected void end() {
-    	Robot.drivetrain.arcadeDrive(0, 0);
+    	Robot.drivetrain.stop();
     	timer.stop();
     }
 
