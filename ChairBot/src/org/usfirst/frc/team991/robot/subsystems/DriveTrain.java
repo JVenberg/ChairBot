@@ -145,6 +145,7 @@ public class DriveTrain extends Subsystem {
     public void driveStraight(double speed, double distance) {
     	double distanceAway = distance - getEncoderDistance();
     	
+    	//Scales speed after coming within certain stopping distance
     	if (distanceAway < STOPPING_DISTANCE) {
     		speed = distanceAway/STOPPING_DISTANCE * speed;
     	}
@@ -155,7 +156,6 @@ public class DriveTrain extends Subsystem {
     /* Turns robot
      * Pass in angle difference from desired */
     public void turn(double angleOfTurn) {
-    	
     	drive.arcadeDrive(0, angleOfTurn - gyro.getAngle() * KP_TURN);
     }
     
