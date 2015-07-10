@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team991.robot.commands.Autonomous;
+import org.usfirst.frc.team991.robot.commands.AutonomousGroup;
 import org.usfirst.frc.team991.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics;
 import org.usfirst.frc.team991.robot.subsystems.Shooter;
@@ -53,8 +53,8 @@ public class Robot extends IterativeRobot {
 		
 		//Auto Chooser
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Autonomous", new Autonomous());
-		autoChooser.addObject("Autonomous Drive", new Autonomous());
+		autoChooser.addDefault("AutonomousGroup", new AutonomousGroup());
+		autoChooser.addObject("AutonomousGroup Drive", new AutonomousGroup());
 		SmartDashboard.putData("Auto Mode", autoChooser);
 		
 		//Pneumatics

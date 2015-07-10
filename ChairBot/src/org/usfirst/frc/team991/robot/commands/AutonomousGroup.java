@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *	Drive forward for a certain amount of time.
  */
-public class Autonomous extends CommandGroup {
+public class AutonomousGroup extends CommandGroup {
     
-    public  Autonomous() {
+    public  AutonomousGroup() {
     	addSequential(new DriveStraight(.5, 24, 2));
     }
 }
