@@ -28,17 +28,31 @@ public class DriveTrain extends Subsystem {
 	private Gyro gyro;
 	
 	public DriveTrain() {
-		//Static Values
+		/* ----------------------------------------------------------------
+		 * STATIC VALUES
+		 * ---------------------------------------------------------------- */
+		
+		//ArcadeDrive
 		DEADZONE = Robot.pref.getDouble("Deadzone", 0.1);
 		MAX_SPEED = Robot.pref.getDouble("Max Speed", 2700); //Human = 2700; Cannon = 2700;
 		FORWARD = Robot.pref.getDouble("Forward", 0.1);
+		ROTSCALER = Robot.pref.getDouble("Rotation Scaler", 0.4);
+		
+		//Encoders
 		MAXPERIOD = Robot.pref.getDouble("Max Period", 0.1);
 		MINRATE = Robot.pref.getDouble("Min Rate", 100);
-		ROTSCALER = Robot.pref.getDouble("Rotation Scaler", 0.4);
+		
+		//Braking
 		HARDBRAKE = Robot.pref.getDouble("Hand Brake", 0.3);
-		KP_KEEP_STRAIGHT = Robot.pref.getDouble("Hand Brake", 0.03);
-		KP_TURN = Robot.pref.getDouble("Hand Brake", 0.03);
-		STOPPING_DISTANCE = Robot.pref.getDouble("Hand Brake", 24);
+		
+		//Autonomous
+		KP_KEEP_STRAIGHT = Robot.pref.getDouble("kP for DriveStraight", 0.03);
+		KP_TURN = Robot.pref.getDouble("kP for Turn", 0.03);
+		STOPPING_DISTANCE = Robot.pref.getDouble("Stop Distance for DriveStraight", 24);
+		
+		/* ----------------------------------------------------------------
+		 * INITIALIZATION
+		 * ---------------------------------------------------------------- */
 		
 		//Initialize motor controllers
 		front_left_motor = new Talon(RobotMap.frontleftMotor);
