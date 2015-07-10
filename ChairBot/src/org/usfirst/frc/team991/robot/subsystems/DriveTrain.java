@@ -73,6 +73,7 @@ public class DriveTrain extends Subsystem {
 		right_encoder.setDistancePerPulse(ENCODER_SCALER);
 		
 		gyro = new Gyro(RobotMap.gyro);
+		gyro.initGyro();
 		
 		//Initialize robot drive
 		drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
@@ -114,10 +115,6 @@ public class DriveTrain extends Subsystem {
     		current_speed = (Math.abs(left_rate) + Math.abs(right_rate))/2;
     		scaler = (current_speed/MAX_SPEED) + FORWARD;
     		y *= Math.min(scaler, 1);
-    		
-    		//SmartDashboard update
-            SmartDashboard.putNumber("Current Speed", current_speed);
-            SmartDashboard.putNumber("Scaler", scaler);
             
             /*	Prevents hard brake
              *	Checks if moving and set to 0 if y is in opposite direction */
@@ -130,6 +127,10 @@ public class DriveTrain extends Subsystem {
     				y = 0;
     			}
         	}
+    		
+    		//SmartDashboard update
+            SmartDashboard.putNumber("Current Speed", current_speed);
+            SmartDashboard.putNumber("Scaler", scaler);
     	}
     	
     	//Scale rotation
@@ -159,7 +160,7 @@ public class DriveTrain extends Subsystem {
     /* Turns robot
      * Pass in angle difference from desired */
     public void turn(double angleOfTurn) {
-    	drive.arcadeDrive(0, angleOfTurn - gyro.getAngle() * KP_TURN);
+    	drive.arcadeDrive(0, (angleOfTurn - gyro.getAngle()) * KP_TURN);
     }
     
     //Performs a hard brake
