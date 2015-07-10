@@ -139,8 +139,8 @@ public class DriveTrain extends Subsystem {
     
     /* Turns robot
      * Pass in angle difference from desired */
-    public void turn(double angleDifference) {
-    	drive.arcadeDrive(0, angleDifference * KP_TURN);
+    public void turn(double angleOfTurn) {
+    	drive.arcadeDrive(0, angleOfTurn - gyro.getAngle() * KP_TURN);
     }
     
     //Performs a hard brake

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class Turn extends Command {
-	private double angleOfTurn, currentAngle;
+	private double angleOfTurn;
 
     public Turn(double angleOfTurn, double timeout) {
         requires(Robot.drivetrain);
@@ -23,8 +23,7 @@ public class Turn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentAngle = Robot.drivetrain.getGyroAngle();
-    	Robot.drivetrain.turn(angleOfTurn - currentAngle);
+    	Robot.drivetrain.turn(angleOfTurn);
     }
 
     // Make this return true when this Command no longer needs to run execute()
