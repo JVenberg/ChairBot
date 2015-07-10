@@ -88,6 +88,7 @@ public class DriveTrain extends Subsystem {
 		
 		LiveWindow.addSensor("Drive Train", "Left Encoder", left_encoder);
 		LiveWindow.addSensor("Drive Train", "Right Encoder", right_encoder);
+		LiveWindow.addSensor("Drive Train", "Gyroscope", gyro);
 	}
 	
 
