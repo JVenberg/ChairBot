@@ -22,7 +22,7 @@ public class DriveTrain extends Subsystem {
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
 	private final double DEADZONE, MAX_SPEED, FORWARD, MAXPERIOD, MINRATE, ROTSCALER, HARDBRAKE,
-							KP_KEEP_STRAIGHT, KP_TURN, STOPPING_DISTANCE;
+							KP_KEEP_STRAIGHT, KP_TURN, STOPPING_DISTANCE, ENCODER_SCALER;
 	private double current_speed, scaler, left_rate, right_rate;
 	private int robotDirection;
 	private Gyro gyro;
@@ -31,16 +31,16 @@ public class DriveTrain extends Subsystem {
 		/* ----------------------------------------------------------------
 		 * STATIC VALUES
 		 * ---------------------------------------------------------------- */
-		
-		//ArcadeDrive
-		DEADZONE = Robot.pref.getDouble("Deadzone", 0.1);
-		MAX_SPEED = Robot.pref.getDouble("Max Speed", 2700); //Human = 2700; Cannon = 2700;
-		FORWARD = Robot.pref.getDouble("Forward", 0.1);
-		ROTSCALER = Robot.pref.getDouble("Rotation Scaler", 0.4);
-		
 		//Encoders
 		MAXPERIOD = Robot.pref.getDouble("Max Period", 0.1);
 		MINRATE = Robot.pref.getDouble("Min Rate", 100);
+		ENCODER_SCALER = Robot.pref.getDouble("Encoder Scaler", 100);
+		
+		//ArcadeDrive
+		DEADZONE = Robot.pref.getDouble("Deadzone", 0.1);
+		MAX_SPEED = Robot.pref.getDouble("Max Speed", 2700 * ENCODER_SCALER); //Human = 2700; Cannon = 2700;
+		FORWARD = Robot.pref.getDouble("Forward", 0.1);
+		ROTSCALER = Robot.pref.getDouble("Rotation Scaler", 0.4);
 		
 		//Braking
 		HARDBRAKE = Robot.pref.getDouble("Hand Brake", 0.3);
@@ -66,8 +66,11 @@ public class DriveTrain extends Subsystem {
 		
 		left_encoder.setMaxPeriod(MAXPERIOD);
 		left_encoder.setMinRate(MINRATE);
+		left_encoder.setDistancePerPulse(ENCODER_SCALER);
+		
 		right_encoder.setMaxPeriod(MAXPERIOD);
 		right_encoder.setMinRate(MINRATE);
+		right_encoder.setDistancePerPulse(ENCODER_SCALER);
 		
 		gyro = new Gyro(RobotMap.gyro);
 		
