@@ -21,7 +21,8 @@ public class DriveTrain extends Subsystem {
 	private SpeedController front_right_motor, back_right_motor, front_left_motor, back_left_motor;
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
-	private final double DEADZONE, MAX_SPEED, FORWARD, MAXPERIOD, MINRATE, ROTSCALER, HARDBRAKE, KP;
+	private final double DEADZONE, MAX_SPEED, FORWARD, MAXPERIOD, MINRATE, ROTSCALER, HARDBRAKE,
+							KP_KEEP_STRAIGHT, KP_TURN;
 	private double current_speed, scaler, left_rate, right_rate;
 	private int robotDirection;
 	private Gyro gyro;
@@ -35,7 +36,8 @@ public class DriveTrain extends Subsystem {
 		MINRATE = Robot.pref.getDouble("Min Rate", 100);
 		ROTSCALER = Robot.pref.getDouble("Rotation Scaler", 0.4);
 		HARDBRAKE = Robot.pref.getDouble("Hand Brake", 0.3);
-		KP = Robot.pref.getDouble("Hand Brake", 0.03);
+		KP_KEEP_STRAIGHT = Robot.pref.getDouble("Hand Brake", 0.03);
+		KP_TURN = Robot.pref.getDouble("Hand Brake", 0.03);
 		
 		//Initialize motor controllers
 		front_left_motor = new Talon(RobotMap.frontleftMotor);
@@ -130,9 +132,15 @@ public class DriveTrain extends Subsystem {
 	}
     
     /* Drives straight
-     * Pass in desired speed */
+     * Pass in desired speed continuously */
     public void driveStraight(double speed) {
-    	drive.arcadeDrive(-speed, -gyro.getAngle() * KP);
+    	drive.arcadeDrive(-speed, -gyro.getAngle() * KP_KEEP_STRAIGHT);
+    }
+    
+    /* Turns robot
+     * Pass in angle difference from desired */
+    public void turn(double angleDifference) {
+    	drive.arcadeDrive(0, angleDifference * KP_TURN);
     }
     
     //Performs a hard brake
