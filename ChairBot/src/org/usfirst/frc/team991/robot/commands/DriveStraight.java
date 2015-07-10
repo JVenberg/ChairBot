@@ -20,6 +20,7 @@ public class DriveStraight extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.resetGyroAngle();
+    	Robot.drivetrain.resetEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
