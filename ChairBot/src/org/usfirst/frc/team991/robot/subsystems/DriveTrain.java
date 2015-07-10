@@ -187,5 +187,14 @@ public class DriveTrain extends Subsystem {
 	public void resetGyroAngle() {
 		gyro.reset();
 	}
+	
+	public double getEncoderDistance() {
+		return (Math.abs(left_encoder.getDistance()) + Math.abs(right_encoder.getDistance())) / 2;
+	}
+	
+	public void resetEncoders() {
+		left_encoder.reset();
+		right_encoder.reset();
+	}
 }
 
