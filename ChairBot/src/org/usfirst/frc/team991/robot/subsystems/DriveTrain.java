@@ -34,7 +34,7 @@ public class DriveTrain extends Subsystem {
 		//Encoders
 		MAXPERIOD = Robot.pref.getDouble("Max Period", 0.1);
 		MINRATE = Robot.pref.getDouble("Min Rate", 100);
-		ENCODER_SCALER = Robot.pref.getDouble("Encoder Scaler", 100);
+		ENCODER_SCALER = Robot.pref.getDouble("Encoder Scaler", 0.008727);
 		
 		//ArcadeDrive
 		DEADZONE = Robot.pref.getDouble("Deadzone", 0.1);
