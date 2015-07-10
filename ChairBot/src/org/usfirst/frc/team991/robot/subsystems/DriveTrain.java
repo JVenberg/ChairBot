@@ -5,6 +5,7 @@ import org.usfirst.frc.team991.robot.RobotMap;
 import org.usfirst.frc.team991.robot.commands.ArcadeDriveJoystick;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -20,12 +21,13 @@ public class DriveTrain extends Subsystem {
 	private SpeedController front_right_motor, back_right_motor, front_left_motor, back_left_motor;
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
-	private final double DEADZONE, MAX_SPEED, FORWARD, MAXPERIOD, MINRATE, ROTSCALER, HARDBRAKE;
+	private final double DEADZONE, MAX_SPEED, FORWARD, MAXPERIOD, MINRATE, ROTSCALER, HARDBRAKE, KP;
 	private double current_speed, scaler, left_rate, right_rate;
 	private int robotDirection;
+	private Gyro gyro;
 	
 	public DriveTrain() {
-		//Constants
+		//Static Values
 		DEADZONE = Robot.pref.getDouble("Deadzone", 0.1);
 		MAX_SPEED = Robot.pref.getDouble("Max Speed", 2700); //Human = 2700; Cannon = 2700;
 		FORWARD = Robot.pref.getDouble("Forward", 0.1);
@@ -33,6 +35,7 @@ public class DriveTrain extends Subsystem {
 		MINRATE = Robot.pref.getDouble("Min Rate", 100);
 		ROTSCALER = Robot.pref.getDouble("Rotation Scaler", 0.4);
 		HARDBRAKE = Robot.pref.getDouble("Hand Brake", 0.3);
+		KP = Robot.pref.getDouble("Hand Brake", 0.03);
 		
 		//Initialize motor controllers
 		front_left_motor = new Talon(RobotMap.frontleftMotor);
@@ -40,7 +43,7 @@ public class DriveTrain extends Subsystem {
 		front_right_motor = new Talon(RobotMap.frontrightMotor);
 		back_right_motor = new Talon(RobotMap.backrightMotor);
 		
-		//Initialize encoders
+		//Initialize encoders and gyro
 		left_encoder = new Encoder(RobotMap.leftencoderAChannel, RobotMap.leftencoderBChannel, true, Encoder.EncodingType.k2X);
 		right_encoder = new Encoder(RobotMap.rightencoderAChannel, RobotMap.rightencoderBChannel, false, Encoder.EncodingType.k2X);
 		
@@ -48,6 +51,8 @@ public class DriveTrain extends Subsystem {
 		left_encoder.setMinRate(MINRATE);
 		right_encoder.setMaxPeriod(MAXPERIOD);
 		right_encoder.setMinRate(MINRATE);
+		
+		gyro = new Gyro(RobotMap.gyro);
 		
 		//Initialize robot drive
 		drive = new RobotDrive(front_left_motor, back_left_motor, front_right_motor, back_right_motor);
@@ -72,6 +77,10 @@ public class DriveTrain extends Subsystem {
     public void initDefaultCommand() {
     	setDefaultCommand(new ArcadeDriveJoystick());
     }
+    
+	/* ----------------------------------------------------------------
+	 * ROBOT MOVEMENT CONTROLS
+	 * ---------------------------------------------------------------- */
     
     public void arcadeDrive(double y, double rot) {
     	long startTime = System.nanoTime();
@@ -120,6 +129,12 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Left Encoder Speed", left_rate);
 	}
     
+    /* Drives straight
+     * Pass in desired speed */
+    public void driveStraight(double speed) {
+    	drive.arcadeDrive(-speed, -gyro.getAngle() * KP);
+    }
+    
     //Performs a hard brake
     public void hardBrake() {
     	robotDirection = getRobotDirection();
@@ -136,6 +151,10 @@ public class DriveTrain extends Subsystem {
 	public void stop() {
 		drive.tankDrive(0, 0);
 	}
+	
+	/* ----------------------------------------------------------------
+	 * ROBOT MOVEMENT INFORMATION
+	 * ---------------------------------------------------------------- */
 	
 	//Checks if robot is stopped
 	public boolean isStopped() {
@@ -159,6 +178,14 @@ public class DriveTrain extends Subsystem {
 		} else {
 			return 0;
 		}
+	}
+	
+	public double getGyroAngle() {
+		return gyro.getAngle();
+	}
+	
+	public void resetGyroAngle() {
+		gyro.reset();
 	}
 }
 
