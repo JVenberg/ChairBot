@@ -3,25 +3,33 @@ package org.usfirst.frc.team991.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *	Pneumatic Subsystem.
+/** Pneumatic Subsystem.
+ * Defines the capabilities of pneumatics on robot.
+ * @author Jack Venberg
  */
 public class Pneumatics extends Subsystem {
-	
-	//Initialize compressor
 	Compressor compressor;
 
-	public void initDefaultCommand() {}
-
+	/** Constructs pneumatic subsystem and
+	 * initializes compressor.
+	 */
 	public Pneumatics() {
 		compressor = new Compressor();
 	}
 
-	/**
-	 * Start the compressor going. The compressor automatically starts and stops as it goes above and below maximum pressure.
+	/** Starts the compressor going.
+	 * The compressor automatically starts and stops
+	 * as it goes above and below maximum pressure.
 	 */
 	public void start() {
 		compressor.start();
 	}
+	
+	/** Initialize the default command for a subsystem
+	 * By default subsystems have no default command, but if they do,
+	 * the default command is set with this method.
+	 * @see edu.wpi.first.wpilibj.command.Subsystem#initDefaultCommand()
+	 */
+	public void initDefaultCommand() {}
 }
 
