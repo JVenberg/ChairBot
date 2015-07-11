@@ -8,25 +8,25 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArcadeDriveJoystick extends Command {
 
-    public ArcadeDriveJoystick() {
-    	requires(Robot.drivetrain);
-    }
+	public ArcadeDriveJoystick() {
+		requires(Robot.drivetrain);
+	}
 
-    protected void initialize() {}
+	protected void initialize() {}
 
-    protected void execute() {
-    	Robot.drivetrain.arcadeDrive(Robot.oi.getLeftJoy().getY(), Robot.oi.getLeftJoy().getTwist());
-    }
+	protected void execute() {
+		Robot.drivetrain.arcadeDrive(Robot.oi.getLeftJoy().getY(), Robot.oi.getLeftJoy().getTwist());
+	}
 
-    protected boolean isFinished() {
-        return false;
-    }
+	protected boolean isFinished() {
+		return false;
+	}
 
-    protected void end() {
-        Robot.drivetrain.stop();
-    }
+	protected void end() {
+		Robot.drivetrain.stop();
+	}
 
-    protected void interrupted() {
-    	end();
-    }
+	protected void interrupted() {
+		end();
+	}
 }

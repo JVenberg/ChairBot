@@ -11,7 +11,7 @@ public class Pneumatics extends Subsystem {
 	//Initialize compressor
 	Compressor compressor;
 
-    public void initDefaultCommand() {}
+	public void initDefaultCommand() {}
 
 	public Pneumatics() {
 		compressor = new Compressor();

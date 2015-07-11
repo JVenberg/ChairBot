@@ -9,27 +9,27 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LoadShooter extends Command {
 
-    public LoadShooter() {
-    	requires(Robot.pneumatics);
-    	setTimeout(8);
-    	setInterruptible(false);
-    }
+	public LoadShooter() {
+		requires(Robot.pneumatics);
+		setTimeout(8);
+		setInterruptible(false);
+	}
 
-    protected void initialize() {
-    	Robot.shooter.loadShooterOn();
-    }
+	protected void initialize() {
+		Robot.shooter.loadShooterOn();
+	}
 
-    protected void execute() {}
+	protected void execute() {}
 
-    protected boolean isFinished() {
-        return isTimedOut();
-    }
+	protected boolean isFinished() {
+		return isTimedOut();
+	}
 
-    protected void end() {
-    	Robot.shooter.loadShooterOff();
-    }
+	protected void end() {
+		Robot.shooter.loadShooterOff();
+	}
 
-    protected void interrupted() {
-    	end();
-    }
+	protected void interrupted() {
+		end();
+	}
 }

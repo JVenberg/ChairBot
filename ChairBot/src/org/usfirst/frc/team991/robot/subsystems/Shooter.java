@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  *	Shooter Subsystem.
  */
 public class Shooter extends Subsystem {
-    
+	
 	//Initializing solenoids
 	Solenoid loader;
 	Solenoid trigger;
@@ -41,6 +41,6 @@ public class Shooter extends Subsystem {
 		trigger.set(false);
 	}
 
-    public void initDefaultCommand() {}
+	public void initDefaultCommand() {}
 }
 

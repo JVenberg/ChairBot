@@ -96,86 +96,86 @@ public class DriveTrain extends Subsystem {
 	}
 	
 
-    public void initDefaultCommand() {
-    	setDefaultCommand(new ArcadeDriveJoystick());
-    }
-    
+	public void initDefaultCommand() {
+		setDefaultCommand(new ArcadeDriveJoystick());
+	}
+	
 	/* ----------------------------------------------------------------
 	 * ROBOT MOVEMENT CONTROLS
 	 * ---------------------------------------------------------------- */
-    
-    public void arcadeDrive(double y, double rot) {
-    	left_rate = left_encoder.getRate();
-    	right_rate = right_encoder.getRate();
+	
+	public void arcadeDrive(double y, double rot) {
+		left_rate = left_encoder.getRate();
+		right_rate = right_encoder.getRate();
 
-    	robotDirection = getRobotDirection();
-    	
-    	if(Math.abs(y) >= DEADZONE) {
-    		//Calculate y-scaler
-    		current_speed = (Math.abs(left_rate) + Math.abs(right_rate))/2;
-    		scaler = (current_speed/MAX_SPEED) + FORWARD;
-    		y *= Math.min(scaler, 1);
-            
-            /*	Prevents hard brake
-             *	Checks if moving and set to 0 if y is in opposite direction */
-        	if(robotDirection == 1) {
-        		if(y > 0){
-        			y = 0;
-        		}
-        	} else if (robotDirection == -1){
-    			if(y < 0) {
-    				y = 0;
-    			}
-        	}
-    		
-    		//SmartDashboard update
-            SmartDashboard.putNumber("Current Speed", current_speed);
-            SmartDashboard.putNumber("Scaler", scaler);
-    	}
-    	
-    	//Scale rotation
-    	rot *= ROTSCALER;
-    	
-    	//Update drive values
+		robotDirection = getRobotDirection();
+		
+		if(Math.abs(y) >= DEADZONE) {
+			//Calculate y-scaler
+			current_speed = (Math.abs(left_rate) + Math.abs(right_rate))/2;
+			scaler = (current_speed/MAX_SPEED) + FORWARD;
+			y *= Math.min(scaler, 1);
+			
+			/*	Prevents hard brake
+			 *	Checks if moving and set to 0 if y is in opposite direction */
+			if(robotDirection == 1) {
+				if(y > 0){
+					y = 0;
+				}
+			} else if (robotDirection == -1){
+				if(y < 0) {
+					y = 0;
+				}
+			}
+			
+			//SmartDashboard update
+			SmartDashboard.putNumber("Current Speed", current_speed);
+			SmartDashboard.putNumber("Scaler", scaler);
+		}
+		
+		//Scale rotation
+		rot *= ROTSCALER;
+		
+		//Update drive values
 		drive.arcadeDrive(y, rot, false);
 		
 		//SmartDashboard update
-        SmartDashboard.putNumber("Right Encoder Speed", right_rate);
-        SmartDashboard.putNumber("Left Encoder Speed", left_rate);
+		SmartDashboard.putNumber("Right Encoder Speed", right_rate);
+		SmartDashboard.putNumber("Left Encoder Speed", left_rate);
 	}
-    
-    /* Drives straight
-     * Pass in desired speed continuously */
-    public void driveStraight(double speed, double distance) {
-    	double distanceAway = distance - getEncoderDistance();
-    	
-    	//Scales speed after coming within certain stopping distance
-    	if (distanceAway < STOPPING_DISTANCE) {
-    		speed = distanceAway/STOPPING_DISTANCE * speed;
-    	}
-    	
-    	drive.arcadeDrive(-speed, -gyro.getAngle() * KP_KEEP_STRAIGHT);
-    }
-    
-    /* Turns robot
-     * Pass in angle difference from desired */
-    public void turn(double angleOfTurn) {
-    	drive.arcadeDrive(0, (angleOfTurn - gyro.getAngle()) * KP_TURN);
-    }
-    
-    //Performs a hard brake
-    public void hardBrake() {
-    	robotDirection = getRobotDirection();
-    	
-    	//Feeds opposite value to brake
-    	if (robotDirection == 1) {
-    		drive.tankDrive(HARDBRAKE, HARDBRAKE);
-    	} else if (robotDirection == -1) {
-    		drive.tankDrive(-HARDBRAKE, -HARDBRAKE);
-    	}
-    }
-    
-    //Stops drive train
+	
+	/* Drives straight
+	 * Pass in desired speed continuously */
+	public void driveStraight(double speed, double distance) {
+		double distanceAway = distance - getEncoderDistance();
+		
+		//Scales speed after coming within certain stopping distance
+		if (distanceAway < STOPPING_DISTANCE) {
+			speed = distanceAway/STOPPING_DISTANCE * speed;
+		}
+		
+		drive.arcadeDrive(-speed, -gyro.getAngle() * KP_KEEP_STRAIGHT);
+	}
+	
+	/* Turns robot
+	 * Pass in angle difference from desired */
+	public void turn(double angleOfTurn) {
+		drive.arcadeDrive(0, (angleOfTurn - gyro.getAngle()) * KP_TURN);
+	}
+	
+	//Performs a hard brake
+	public void hardBrake() {
+		robotDirection = getRobotDirection();
+		
+		//Feeds opposite value to brake
+		if (robotDirection == 1) {
+			drive.tankDrive(HARDBRAKE, HARDBRAKE);
+		} else if (robotDirection == -1) {
+			drive.tankDrive(-HARDBRAKE, -HARDBRAKE);
+		}
+	}
+	
+	//Stops drive train
 	public void stop() {
 		drive.tankDrive(0, 0);
 	}

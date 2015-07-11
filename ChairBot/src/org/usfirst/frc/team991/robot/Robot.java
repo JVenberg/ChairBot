@@ -42,11 +42,11 @@ public class Robot extends IterativeRobot {
 	//Camera Server
 	public CameraServer server;
 	
-    public void robotInit() {
-    	//Gets Preferences
-    	pref = Preferences.getInstance();
-    	
-    	//Subsystems
+	public void robotInit() {
+		//Gets Preferences
+		pref = Preferences.getInstance();
+		
+		//Subsystems
 		drivetrain = new DriveTrain();
 		pneumatics = new Pneumatics();
 		shooter = new Shooter();
@@ -71,45 +71,45 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(drivetrain);
 		SmartDashboard.putData(shooter);
-    }
+	}
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
-    public void autonomousInit() {
-    	autonomousCommand = (Command) autoChooser.getSelected();
-    	autonomousCommand.start();
-    }
+	public void autonomousInit() {
+		autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand.start();
+	}
 
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-    public void teleopInit() {
-    	//Stops autonomous
-        if (autonomousCommand != null) autonomousCommand.cancel();
-    }
+	public void teleopInit() {
+		//Stops autonomous
+		if (autonomousCommand != null) autonomousCommand.cancel();
+	}
 
-    /**
-     * This function is called when the disabled button is hit.
-     * You can use it to reset subsystems before shutting down.
-     */
-    public void disabledInit(){
-    	drivetrain.stop();
-    }
+	/**
+	 * This function is called when the disabled button is hit.
+	 * You can use it to reset subsystems before shutting down.
+	 */
+	public void disabledInit(){
+		drivetrain.stop();
+	}
 
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+	}
+	
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
 }

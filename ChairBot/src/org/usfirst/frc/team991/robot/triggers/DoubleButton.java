@@ -16,8 +16,8 @@ public class DoubleButton extends Trigger {
 		this.button1 = button1;
 		this.button2 = button2;
 	}	
-    
-    public boolean get() {
-        return joy.getRawButton(button1) && joy.getRawButton(button2);
-    }
+	
+	public boolean get() {
+		return joy.getRawButton(button1) && joy.getRawButton(button2);
+	}
 }

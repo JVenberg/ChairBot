@@ -9,28 +9,28 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class FireShooter extends Command {
 
-    public FireShooter() {
-        requires(Robot.shooter);
-        setTimeout(1);
-        setInterruptible(false);
-    }
+	public FireShooter() {
+		requires(Robot.shooter);
+		setTimeout(1);
+		setInterruptible(false);
+	}
 
-    protected void initialize() {
-    	if (Robot.drivetrain.isStopped())
-    		Robot.shooter.triggerOn();
-    }
+	protected void initialize() {
+		if (Robot.drivetrain.isStopped())
+			Robot.shooter.triggerOn();
+	}
 
-    protected void execute() {}
+	protected void execute() {}
 
-    protected boolean isFinished() {
-        return isTimedOut();
-    }
+	protected boolean isFinished() {
+		return isTimedOut();
+	}
 
-    protected void end() {
-    	Robot.shooter.triggerOff();
-    }
-    
-    protected void interrupted() {
-    	end();
-    }
+	protected void end() {
+		Robot.shooter.triggerOff();
+	}
+	
+	protected void interrupted() {
+		end();
+	}
 }
