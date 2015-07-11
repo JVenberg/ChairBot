@@ -22,7 +22,7 @@ public class DoubleButton extends Trigger {
 		this.button2 = button2;
 	}	
 	
-	/* (non-Javadoc)
+	/** Overrides get() to allow for two buttons 
 	 * @see edu.wpi.first.wpilibj.buttons.Trigger#get()
 	 */
 	public boolean get() {
