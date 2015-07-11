@@ -3,20 +3,28 @@ package org.usfirst.frc.team991.robot.triggers;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
 
-/**
- * A custom button that is triggered when two buttons on a Joystick are
- * simultaneously pressed.
+/** Extends Trigger to add multi-button support by overwriting get() method.
+ * Triggers when both buttons are pressed.
+ * @author Jack Venberg
  */
 public class DoubleButton extends Trigger {
 	private Joystick joy;
 	private int button1, button2;
 	
+	/** Constructs double button.
+	 * @param joy		Source joystick
+	 * @param button1	First button
+	 * @param button2	Second button
+	 */
 	public DoubleButton(Joystick joy, int button1, int button2) {
 		this.joy = joy;
 		this.button1 = button1;
 		this.button2 = button2;
 	}	
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.buttons.Trigger#get()
+	 */
 	public boolean get() {
 		return joy.getRawButton(button1) && joy.getRawButton(button2);
 	}
