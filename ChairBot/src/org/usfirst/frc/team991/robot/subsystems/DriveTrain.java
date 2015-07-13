@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *	Drive Train Subsystem.
+/** Drive Train Subsystem.
+ * Defines the capabilities of robot drive train.
+ * @author JackV
  */
 public class DriveTrain extends Subsystem {
-	
 	private SpeedController front_right_motor, back_right_motor, front_left_motor, back_left_motor;
 	private RobotDrive drive;
 	private Encoder left_encoder, right_encoder;
@@ -27,9 +27,14 @@ public class DriveTrain extends Subsystem {
 	private int robotDirection;
 	private Gyro gyro;
 	
+	/** Constructs DriveTrain Subsystem.
+	 * Initializes preferences, motors, encoders, gyro, drive system.
+	 * Inverts motors.
+	 * Writes motors and sensors to LiveWindow.
+	 */
 	public DriveTrain() {
 		/* ----------------------------------------------------------------
-		 * STATIC VALUES
+		 * Preferences
 		 * ---------------------------------------------------------------- */
 		//Encoders
 		MAXPERIOD = Robot.pref.getDouble("Max Period", 0.1);
@@ -96,6 +101,11 @@ public class DriveTrain extends Subsystem {
 	}
 	
 
+	/** Initialize the default command for a subsystem
+	 * By default subsystems have no default command, but if they do,
+	 * the default command is set with this method.
+	 * @see edu.wpi.first.wpilibj.command.Subsystem#initDefaultCommand()
+	 */
 	public void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDriveJoystick());
 	}
@@ -104,6 +114,18 @@ public class DriveTrain extends Subsystem {
 	 * ROBOT MOVEMENT CONTROLS
 	 * ---------------------------------------------------------------- */
 	
+	/** Arcade Drive.
+	 * Called continuously.
+	 * Gets y-axis and rotation from joystick
+	 * and robot velocity and direction from encoders.
+	 * If y-axis is greater than DEADZONE, it scales the
+	 * y-axis by current_speed/MAX_SPEED, adds FORWARD, and limits
+	 * it to a max/min of 1.
+	 * Also prevents y-axis values opposite direction of motion.
+	 * Writes velocity and scaler to SmartDashboard.
+	 * @param y 	Y-axis value from joystick
+	 * @param rot	Rotational value from joystick
+	 */
 	public void arcadeDrive(double y, double rot) {
 		left_rate = left_encoder.getRate();
 		right_rate = right_encoder.getRate();
@@ -144,8 +166,18 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("Left Encoder Speed", left_rate);
 	}
 	
-	/* Drives straight
-	 * Pass in desired speed continuously */
+	/** Drives Straight.
+	 * Called continuously.
+	 * Slows down linearly from STOPPING_DISTANCE to passed in distance
+	 * by scaling speed by distanceAway/STOPPING_DISTANCE.
+	 * Gets angle offset from previously zeroed gyroscope, negates it,
+	 * and multiplies it by KP_KEEP_STRAIGHT to convert angle values into
+	 * rotational speed values.
+	 * Uses scaled speed and rotational values and passes them
+	 * into ArcadeDrive.
+	 * @param speed		Desired speed of robot.
+	 * @param distance	Desired distance in inches to travel.
+	 */
 	public void driveStraight(double speed, double distance) {
 		double distanceAway = distance - getEncoderDistance();
 		
@@ -157,13 +189,21 @@ public class DriveTrain extends Subsystem {
 		drive.arcadeDrive(-speed, -gyro.getAngle() * KP_KEEP_STRAIGHT);
 	}
 	
-	/* Turns robot
-	 * Pass in angle difference from desired */
+	/** Turns robot
+	 * Continuously called.
+	 * Takes desired angle of turn and subtracts angle already turned from
+	 * gyroscope, multiplies by KP_TURN to convert to angular speed, then
+	 * calls ArcadeDrive.
+	 * @param angleOfTurn	Desired angle of turn.
+	 */
 	public void turn(double angleOfTurn) {
 		drive.arcadeDrive(0, (angleOfTurn - gyro.getAngle()) * KP_TURN);
 	}
 	
-	//Performs a hard brake
+	/** Performs a hard brake
+	 * Gets robot direction from encoders, then calls TankDrive
+	 * with HARDBRAKE in the opposite direction of motion.
+	 */
 	public void hardBrake() {
 		robotDirection = getRobotDirection();
 		
@@ -175,7 +215,9 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 	
-	//Stops drive train
+	/** Stops drive train
+	 * Sets TankDrive to (0,0).
+	 */
 	public void stop() {
 		drive.tankDrive(0, 0);
 	}
@@ -184,18 +226,18 @@ public class DriveTrain extends Subsystem {
 	 * ROBOT MOVEMENT INFORMATION
 	 * ---------------------------------------------------------------- */
 	
-	//Checks if robot is stopped
+	/** Checks if robot is stopped
+	 * @return True if robot is stopped.
+	 */
 	public boolean isStopped() {
 		if (left_encoder.getStopped() && right_encoder.getStopped())
 			return true;
 		return false;
 	}
 	
-	/* Returns robot direction
-	 * Forward = 1
-	 * Backwards = -1
-	 * Stopped = 0
-	 * */
+	/** Returns robot direction
+	 * @return Forward = 1; Backwards = -1; Stopped = 0
+	 */
 	public int getRobotDirection() {
 		if (!isStopped()) {
 			if (left_encoder.getRate() > 0 && right_encoder.getRate() > 0) {
@@ -208,18 +250,28 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 	
+	/** Gets gyroscope angle
+	 * @return Angle from gyroscope
+	 */
 	public double getGyroAngle() {
 		return gyro.getAngle();
 	}
 	
+	/** Resets gyroscope to 0
+	 */
 	public void resetGyroAngle() {
 		gyro.reset();
 	}
 	
+	/** Gets encoder distance through averaging left and right.
+	 * @return Average of left and right encoder distances.
+	 */
 	public double getEncoderDistance() {
 		return (Math.abs(left_encoder.getDistance()) + Math.abs(right_encoder.getDistance())) / 2;
 	}
 	
+	/** Resets encoder distance to 0
+	 */
 	public void resetEncoders() {
 		left_encoder.reset();
 		right_encoder.reset();
