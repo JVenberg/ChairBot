@@ -4,6 +4,7 @@ import org.usfirst.frc.team991.robot.commands.FireShooter;
 import org.usfirst.frc.team991.robot.commands.HardBrake;
 import org.usfirst.frc.team991.robot.commands.LoadAndFire;
 import org.usfirst.frc.team991.robot.commands.LoadShooter;
+import org.usfirst.frc.team991.robot.commands.MovePivot;
 import org.usfirst.frc.team991.robot.triggers.DoubleButton;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,23 +23,29 @@ public class OI {
 	private Joystick joystick_1 = new Joystick(1);
 	private Trigger loadButton;
 	private Trigger fireButton;
-	private Button hardBrakeButton;
+	private Button hardBrakeButton, pivotUp, pivotDown;
 	
 	public OI() {
 		//Construct Buttons
 		loadButton = new DoubleButton(joystick_0, 5, 6);
 		fireButton = new DoubleButton(joystick_0, 7, 8);
 		hardBrakeButton = new JoystickButton(joystick_0, 1);
+		pivotUp = new JoystickButton(joystick_0, 4);
+		pivotDown = new JoystickButton(joystick_0, 3);
 		
 		//Bind Commands to Buttons
 		loadButton.whenActive(new LoadShooter());
 		fireButton.whenActive(new FireShooter());
 		hardBrakeButton.whenPressed(new HardBrake());
+		pivotUp.whileHeld(new MovePivot(1));
+		pivotDown.whileHeld(new MovePivot(-1));
 
 		//SmartDashboard Buttons
 		SmartDashboard.putData("Load And Fire", new LoadAndFire());
 		SmartDashboard.putData("Load", new LoadShooter());
 		SmartDashboard.putData("Fire", new FireShooter());
+		SmartDashboard.putData("Pivot Up", new MovePivot(1));
+		SmartDashboard.putData("Pivot Down", new MovePivot(-1));
 	}
 	
 	//Return joysticks
