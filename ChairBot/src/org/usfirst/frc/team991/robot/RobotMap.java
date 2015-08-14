@@ -11,6 +11,7 @@ public class RobotMap {
 	public static int frontleftMotor = 1;
 	public static int backrightMotor = 2;
 	public static int frontrightMotor = 3;
+	public static int pivotMotor = 4;
 	
 	public static int leftencoderAChannel = 2;
 	public static int leftencoderBChannel = 1;

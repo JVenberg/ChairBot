@@ -3,6 +3,7 @@ package org.usfirst.frc.team991.robot.subsystems;
 import org.usfirst.frc.team991.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -14,6 +15,8 @@ public class Shooter extends Subsystem {
 	Solenoid loader;
 	Solenoid trigger;
 	
+	VictorSP pivot;
+	
 	/** Constructs shooter subsystem.
 	 * Initializes loader and trigger solenoids
 	 * and adds them to LiveWindow.
@@ -22,8 +25,11 @@ public class Shooter extends Subsystem {
 		loader = new Solenoid(RobotMap.loadersolenoid);
 		trigger = new Solenoid(RobotMap.triggersolenoid);
 		
+		pivot = new VictorSP(RobotMap.pivotMotor);
+		
 		LiveWindow.addActuator("Shooter", "Loader", loader);
 		LiveWindow.addActuator("Shooter", "Trigger", trigger);
+		LiveWindow.addActuator("Shooter", "Pivot", pivot);
 	}
 	
 	/** Opens up loader solenoid to start
@@ -52,6 +58,18 @@ public class Shooter extends Subsystem {
 	 */
 	public void triggerOff() {
 		trigger.set(false);
+	}
+	
+	public void pivotUp(double speed) {
+		pivot.set(speed);
+	}
+	
+	public void pivotDown(double speed) {
+		pivot.set(speed);
+	}
+	
+	public void pivotStop() {
+		pivot.set(0);
 	}
 	
 	/** Initialize the default command for a subsystem
