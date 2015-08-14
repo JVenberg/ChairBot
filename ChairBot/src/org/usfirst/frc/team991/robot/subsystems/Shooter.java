@@ -65,7 +65,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void pivotDown(double speed) {
-		pivot.set(speed);
+		pivot.set(-speed);
 	}
 	
 	public void pivotStop() {
