@@ -23,7 +23,7 @@ public class OI {
 	private Joystick joystick_1 = new Joystick(1);
 	private Trigger loadButton;
 	private Trigger fireButton;
-	private Button hardBrakeButton, pivotUp, pivotDown;
+	private Button hardBrakeButton, pivotUp, pivotDown, pivotStop;
 	
 	public OI() {
 		//Construct Buttons
@@ -32,6 +32,7 @@ public class OI {
 		hardBrakeButton = new JoystickButton(joystick_0, 1);
 		pivotUp = new JoystickButton(joystick_0, 4);
 		pivotDown = new JoystickButton(joystick_0, 3);
+		pivotStop = new JoystickButton(joystick_0, 2);
 		
 		//Bind Commands to Buttons
 		loadButton.whenActive(new LoadShooter());
@@ -39,6 +40,7 @@ public class OI {
 		hardBrakeButton.whenPressed(new HardBrake());
 		pivotUp.whileHeld(new MovePivot(1));
 		pivotDown.whileHeld(new MovePivot(-1));
+		pivotStop.whileHeld(new MovePivot(0));
 
 		//SmartDashboard Buttons
 		SmartDashboard.putData("Load And Fire", new LoadAndFire());

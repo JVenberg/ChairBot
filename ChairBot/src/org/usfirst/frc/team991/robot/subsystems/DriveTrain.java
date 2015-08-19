@@ -140,15 +140,15 @@ public class DriveTrain extends Subsystem {
 			
 			/*	Prevents hard brake
 			 *	Checks if moving and set to 0 if y is in opposite direction */
-			if(robotDirection == 1) {
-				if(y > 0){
-					y = 0;
-				}
-			} else if (robotDirection == -1){
-				if(y < 0) {
-					y = 0;
-				}
-			}
+//			if(robotDirection == 1) {
+//				if(y > 0){
+//					y = 0;
+//				}
+//			} else if (robotDirection == -1){
+//				if(y < 0) {
+//					y = 0;
+//				}
+//			}
 			
 			//SmartDashboard update
 			SmartDashboard.putNumber("Current Speed", current_speed);
