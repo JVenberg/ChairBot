@@ -16,9 +16,6 @@ import org.usfirst.frc.team991.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics;
 import org.usfirst.frc.team991.robot.subsystems.Shooter;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.Image;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
