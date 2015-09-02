@@ -13,7 +13,7 @@ public class MovePivot extends Command {
 	
     public MovePivot(int direction) {
         requires(Robot.shooter);
-        pivotSpeed = .5;
+        pivotSpeed = .25;
         this.direction = direction;
     }
 
